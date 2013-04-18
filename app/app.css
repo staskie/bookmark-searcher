@@ -2,12 +2,12 @@
   margin:5px 0 20px 0;
 }
 
-#bookmarks {
+.bookmarks {
   margin: 0 0 0 20px;
   width:560px;
 }
 
-#bookmarks a {
+.bookmarks a {
   font-size:11px;
   margin-bottom:7px;
   display:block;

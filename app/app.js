@@ -8,16 +8,26 @@ function App() {
   this.phrase = ko.observable();
 
   this.bookmarks = ko.observableArray([]);
+  this.contentBookmarks = ko.observableArray([]);
+
+  this.clearPreviousSearch = function() {
+      this.bookmarks([]);
+      this.contentBookmarks([]);
+  };
 
   this.search = function(data, event) {
     this.selectFieldText();
+    this.clearPreviousSearch();
 
     var self = this;
     this.sendMessage({action:"searchBookmarks", phrase: this.phrase()}, function(data) {
-      self.bookmarks([]);
       data.forEach(function(bookmark) {
         self.bookmarks.push(new Bookmark(bookmark));
       });
+    });
+
+    this.sendMessage({action:"searchRemoteURLs", phrase: this.phrase()}, function(bookmark) {
+      self.contentBookmarks.push(new Bookmark(bookmark));
     });
   }
 
@@ -41,7 +51,7 @@ function App() {
   }
 
   this.sendMessage = function(data, responseCallback) {
-    data._callbackId = (new Date()).getTime().toString();
+    data._callbackId = (new Date()).getTime().toString() + data.action;
     this.responseCallbacks[data._callbackId] = responseCallback;
     this.parent.postMessage(data, "*");
   }

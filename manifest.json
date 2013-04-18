@@ -12,7 +12,9 @@
   },
 
   "permissions": [
-    "bookmarks"
+    "bookmarks",
+    "http://*/",
+    "https://*/"
   ],
 
   "sandbox": {
