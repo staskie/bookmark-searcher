@@ -11,16 +11,24 @@
         <input class="btn" type="submit"/>
     </form>
 
-    <p>Phrase found in bookmark's content</p>
-    <div class="bookmarks" data-bind="foreach: contentBookmarks">
-      <a data-bind="attr: {href: url}, text: url" class="url" target="_blank"></a>
+    <div data-bind='if: contentBookmarks().length ==  0 && bookmarks().lengt == 0'>
+      no results
     </div>
 
+    <div data-bind='if: contentBookmarks().length > 0'>
+      <p>Phrase found <span data-bind='text: contentBookmarks().length'></span> times in bookmarks' content</p>
+      <div class="bookmarks" data-bind="foreach: contentBookmarks">
+        <a data-bind="attr: {href: url}, text: title" class="url" target="_blank"></a>
+      </div>
     <hr/>
+    </div>
 
-    <p>Phrase found in bookrmak's title and url</p>
-    <div class="bookmarks" data-bind="foreach: bookmarks">
-      <a data-bind="attr: {href: url, title: title}, text: title" class="url" target="_blank"></a>
+
+    <div data-bind="if: bookmarks().length > 0">
+      <p>Phrase found  <span data-bind='text:bookmarks().length'></span> times in bookrmak's titles and urls</p>
+      <div class="bookmarks" data-bind="foreach: bookmarks">
+        <a data-bind="attr: {href: url, title: title}, text: title" class="url" target="_blank"></a>
+      </div>
     </div>
 
     <script src="../lib/knockout.js"></script>
