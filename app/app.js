@@ -10,8 +10,7 @@ function App() {
   this.bookmarks = ko.observableArray([]);
 
   this.search = function(data, event) {
-    var searchField = document.getElementById("searchField");
-    searchField.select();
+    this.selectFieldText();
 
     var self = this;
     this.sendMessage({action:"searchBookmarks", phrase: this.phrase()}, function(data) {
@@ -20,6 +19,11 @@ function App() {
         self.bookmarks.push(new Bookmark(bookmark));
       });
     });
+  }
+
+  this.selectFieldText = function() {
+    var searchField = document.getElementById("searchField");
+    searchField.select();
   }
 
   this.onMessage = function(event) {
