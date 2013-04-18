@@ -1,0 +1,22 @@
+<!doctype html>
+<html>
+  <head>
+   <link href="../lib/bootstrap/css/bootstrap.min.css" rel="stylesheet"/> 
+   <link href="app.css" rel="stylesheet"/> 
+  </head>
+  <body>
+
+    <form class="input-append search-form" data-bind="submit: search">
+        <input placeholder="Search your bookmarks" id="searchField" class="span5" data-bind="value: phrase" name="phrase" type="text"/>
+        <input class="btn" type="submit"/>
+    </form>
+
+
+    <div id="bookmarks" data-bind="foreach: bookmarks">
+      <a data-bind="attr: {href: url, title: title}, text: title" class="url" target="_blank"></a>
+    </div>
+
+    <script src="../lib/knockout.js"></script>
+    <script src="app.js"></script>
+  </body>
+</html>

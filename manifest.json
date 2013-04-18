@@ -1,0 +1,22 @@
+{
+  "manifest_version": 2,
+
+  "name": "Bookmark Browser",
+  "description": "This extension helps you to quickly browse your bookmarks",
+  "version": "1.0",
+
+  "browser_action": {
+    "default_icon": "images/icon.png",
+    "default_popup": "search.html",
+    "default_title": "Bookmark search"
+  },
+
+  "permissions": [
+    "bookmarks"
+  ],
+
+  "sandbox": {
+    "pages": ["app/app.html"]
+  }
+}
+
