@@ -37,7 +37,7 @@ function App() {
   }
 
   this.sendMessage = function(data, responseCallback) {
-    data._callbackId = 1;
+    data._callbackId = (new Date()).getTime().toString();
     this.responseCallbacks[data._callbackId] = responseCallback;
     this.parent.postMessage(data, "*");
   }
