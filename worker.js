@@ -83,26 +83,7 @@
              });
            });
          });
-/*
-        chrome.bookmarks.getChildren("1", function(data) {
-          var bookmarks = filterOutNonHTTP(data);
-          bookmarks.forEach(function(bookmark) {
-            getRemoteURL(bookmark.url, function(pageContent) {
-              var result = searchForPhrase(pageContent, message.phrase);
-              if (result) {
-                postMessageToApp({
-                  callback: event.data._callbackId,
-                  data: {
-                    url: bookmark.url,
-                    title: bookmark.title
-                  }
-                });
-              }
-            });
-          });
-        });
-*/
-        break;
+      break;
 
       case "searchRemoteURL":
         getRemoteURL(message.url, function(pageContent) {
