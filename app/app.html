@@ -11,8 +11,15 @@
         <input class="btn" type="submit"/>
     </form>
 
-    <div data-bind='if: contentBookmarks().length ==  0 && bookmarks().lengt == 0'>
+    <div data-bind='if: nothingFound()'>
       no results
+    </div>
+
+    <div data-bind="if: bookmarks().length > 0">
+      <p>Phrase found  <span data-bind='text:bookmarks().length'></span> times in bookrmak's titles and urls</p>
+      <div class="bookmarks" data-bind="foreach: bookmarks">
+        <a data-bind="attr: {href: url, title: title}, text: title" class="url" target="_blank"></a>
+      </div>
     </div>
 
     <div data-bind='if: contentBookmarks().length > 0'>
@@ -21,14 +28,6 @@
         <a data-bind="attr: {href: url}, text: title" class="url" target="_blank"></a>
       </div>
     <hr/>
-    </div>
-
-
-    <div data-bind="if: bookmarks().length > 0">
-      <p>Phrase found  <span data-bind='text:bookmarks().length'></span> times in bookrmak's titles and urls</p>
-      <div class="bookmarks" data-bind="foreach: bookmarks">
-        <a data-bind="attr: {href: url, title: title}, text: title" class="url" target="_blank"></a>
-      </div>
     </div>
 
     <script src="../lib/knockout.js"></script>

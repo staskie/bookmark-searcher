@@ -47,12 +47,43 @@
     return match;
   }
 
+  function findChildren(node, bookmarkNodes) {
+    if (!node.children) {
+      bookmarkNodes.push(node);
+      return false;
+    }
+    node.children.forEach(function(subNode) {
+      findChildren(subNode, bookmarkNodes);
+    });
+  }
+
   function handleMessage(event) {
     var message = event.data;
     var action  = message['action'];
 
     switch(action) {
       case "searchRemoteURLs":
+        var bookmarkNodes = []
+        chrome.bookmarks.getTree(function(treeNodes) {
+          findChildren(treeNodes[0], bookmarkNodes);
+
+          var bookmarks = filterOutNonHTTP(bookmarkNodes);
+          bookmarks.forEach(function(bookmark) {
+            getRemoteURL(bookmark.url, function(pageContent) {
+              var result = searchForPhrase(pageContent, message.phrase);
+              if (result) {
+                postMessageToApp({
+                  callback: event.data._callbackId,
+                  data: {
+                    url: bookmark.url,
+                    title: bookmark.title
+                  }
+                });
+               }
+             });
+           });
+         });
+/*
         chrome.bookmarks.getChildren("1", function(data) {
           var bookmarks = filterOutNonHTTP(data);
           bookmarks.forEach(function(bookmark) {
@@ -70,12 +101,12 @@
             });
           });
         });
-      break;
+*/
+        break;
 
       case "searchRemoteURL":
         getRemoteURL(message.url, function(pageContent) {
         var found = searchForPhrase(pageContent, message.phrase)
-        console.log(found);
 
         postMessageToApp({
           callback: event.data._callbackId,

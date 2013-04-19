@@ -5,10 +5,20 @@ function Bookmark(bookmark) {
 
 function App() {
   this.responseCallbacks = {};
-  this.phrase = ko.observable();
 
+  this.searched = false;
+
+  this.phrase = ko.observable();
   this.bookmarks = ko.observableArray([]);
   this.contentBookmarks = ko.observableArray([]);
+
+  this.nothingFound = ko.computed(function() {
+    if (this.bookmarks().length == 0 && this.contentBookmarks().length == 0) {
+      return true;
+    } else {
+      return false;
+    }
+  }, this);
 
   this.clearPreviousSearch = function() {
       this.bookmarks([]);
