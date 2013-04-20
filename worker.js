@@ -57,32 +57,38 @@
     });
   }
 
+  function searchRemoteURLs(phrase, callback) {
+    var bookmarkNodes = []
+    chrome.bookmarks.getTree(function(treeNodes) {
+      findChildren(treeNodes[0], bookmarkNodes);
+
+      var bookmarks = filterOutNonHTTP(bookmarkNodes);
+      bookmarks.forEach(function(bookmark) {
+        getRemoteURL(bookmark.url, function(pageContent) {
+          var result = searchForPhrase(pageContent, phrase);
+          if (result) {
+            callback(bookmark);
+          }
+        });
+      });
+    });
+  }
+
   function handleMessage(event) {
     var message = event.data;
     var action  = message['action'];
 
     switch(action) {
       case "searchRemoteURLs":
-        var bookmarkNodes = []
-        chrome.bookmarks.getTree(function(treeNodes) {
-          findChildren(treeNodes[0], bookmarkNodes);
-
-          var bookmarks = filterOutNonHTTP(bookmarkNodes);
-          bookmarks.forEach(function(bookmark) {
-            getRemoteURL(bookmark.url, function(pageContent) {
-              var result = searchForPhrase(pageContent, message.phrase);
-              if (result) {
-                postMessageToApp({
-                  callback: event.data._callbackId,
-                  data: {
-                    url: bookmark.url,
-                    title: bookmark.title
-                  }
-                });
-               }
-             });
-           });
-         });
+        searchRemoteURLs(message.phrase, function(bookmark) {
+          postMessageToApp({
+            callback: event.data._callbackId,
+            data: {
+              url: bookmark.url,
+              title: bookmark.title
+            }
+          });
+        });
       break;
 
       case "searchRemoteURL":
