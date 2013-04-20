@@ -1,8 +1,8 @@
 {
   "manifest_version": 2,
 
-  "name": "Bookmark Browser",
-  "description": "This extension helps you to quickly browse your bookmarks",
+  "name": "Bookmark Searcher",
+  "description": "Chrome extention that searches for a phrase not only in the urls and titles of your bookmars, but also in their content",
   "version": "1.0",
 
   "browser_action": {
